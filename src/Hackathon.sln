@@ -1,0 +1,110 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.AppService", "Hackathon.AppService\Hackathon.AppService.csproj", "{A652143A-642A-4398-98CA-CF1D63329F8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Domain", "Hackathon.Domain\Hackathon.Domain.csproj", "{B47B9F61-6902-4B91-BC3E-06CA3071AC15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.SharedKernel", "Hackathon.SharedKernel\Hackathon.SharedKernel.csproj", "{9D388AA8-F1AC-4A34-BDD4-DD8BE6799612}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Infra.Repository", "Hackathon.Infra.Repository\Hackathon.Infra.Repository.csproj", "{6302A99C-6070-4CE6-8D67-38C8B55F4D43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Tests.UnitTests", "Hackathon.Tests.UnitTests\Hackathon.Tests.UnitTests.csproj", "{4A895550-ED97-4A28-9F29-43C2ADFF8585}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1- API", "1- API", "{4FFC21F3-7487-4A8D-8303-301A3DA8F142}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2- Application Service", "2- Application Service", "{3392B6EE-8EA7-4E23-BDAD-CA216F0C4BCF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Core", "3 - Core", "{B22066C2-03B2-4254-A771-D5EB1451E51C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infrastructure", "4 - Infrastructure", "{BFB94D37-E12E-4F47-AC52-AA9E39B9AF5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Tests", "6 - Tests", "{7FDBF41C-F10E-4C66-9519-00E66946E6DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Api", "Hackathon.Api\Hackathon.Api.csproj", "{287C3809-D010-48D6-A52E-E07A2D1AADEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Infra.Jobs", "Hackathon.Infra.Jobs\Hackathon.Infra.Jobs.csproj", "{17D10208-964B-4A85-AE27-DB1D7E39EA3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Adapters", "5 - Adapters", "{A6CD0B18-9FD4-4A0F-B45C-591CCFAB121A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Adapter.DetranSP", "Hackathon.Adapter.DetranSP\Hackathon.Adapter.DetranSP.csproj", "{167FDEDA-875F-4A14-A4E4-3869A0BD6823}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Adapter.DetranMS", "Hackathon.Adapter.DetranMS\Hackathon.Adapter.DetranMS.csproj", "{D622FEF1-B9CD-41C1-939A-72C9EC31C296}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Infra.Adapters", "Hackathon.Infra.Adapters\Hackathon.Infra.Adapters.csproj", "{B572DE47-CA64-472E-9E8D-70BF492E781E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Infra.ChatGPT", "Hackathon.Infra.ChatGPT\Hackathon.Infra.ChatGPT.csproj", "{95488614-DDA2-4DCD-860A-B6037A925B46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A652143A-642A-4398-98CA-CF1D63329F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A652143A-642A-4398-98CA-CF1D63329F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A652143A-642A-4398-98CA-CF1D63329F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A652143A-642A-4398-98CA-CF1D63329F8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B47B9F61-6902-4B91-BC3E-06CA3071AC15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B47B9F61-6902-4B91-BC3E-06CA3071AC15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B47B9F61-6902-4B91-BC3E-06CA3071AC15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B47B9F61-6902-4B91-BC3E-06CA3071AC15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D388AA8-F1AC-4A34-BDD4-DD8BE6799612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D388AA8-F1AC-4A34-BDD4-DD8BE6799612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D388AA8-F1AC-4A34-BDD4-DD8BE6799612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D388AA8-F1AC-4A34-BDD4-DD8BE6799612}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6302A99C-6070-4CE6-8D67-38C8B55F4D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6302A99C-6070-4CE6-8D67-38C8B55F4D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6302A99C-6070-4CE6-8D67-38C8B55F4D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6302A99C-6070-4CE6-8D67-38C8B55F4D43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A895550-ED97-4A28-9F29-43C2ADFF8585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A895550-ED97-4A28-9F29-43C2ADFF8585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A895550-ED97-4A28-9F29-43C2ADFF8585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A895550-ED97-4A28-9F29-43C2ADFF8585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{287C3809-D010-48D6-A52E-E07A2D1AADEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{287C3809-D010-48D6-A52E-E07A2D1AADEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{287C3809-D010-48D6-A52E-E07A2D1AADEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{287C3809-D010-48D6-A52E-E07A2D1AADEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D10208-964B-4A85-AE27-DB1D7E39EA3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D10208-964B-4A85-AE27-DB1D7E39EA3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D10208-964B-4A85-AE27-DB1D7E39EA3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D10208-964B-4A85-AE27-DB1D7E39EA3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{167FDEDA-875F-4A14-A4E4-3869A0BD6823}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{167FDEDA-875F-4A14-A4E4-3869A0BD6823}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{167FDEDA-875F-4A14-A4E4-3869A0BD6823}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{167FDEDA-875F-4A14-A4E4-3869A0BD6823}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D622FEF1-B9CD-41C1-939A-72C9EC31C296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D622FEF1-B9CD-41C1-939A-72C9EC31C296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D622FEF1-B9CD-41C1-939A-72C9EC31C296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D622FEF1-B9CD-41C1-939A-72C9EC31C296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B572DE47-CA64-472E-9E8D-70BF492E781E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B572DE47-CA64-472E-9E8D-70BF492E781E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B572DE47-CA64-472E-9E8D-70BF492E781E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B572DE47-CA64-472E-9E8D-70BF492E781E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95488614-DDA2-4DCD-860A-B6037A925B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95488614-DDA2-4DCD-860A-B6037A925B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95488614-DDA2-4DCD-860A-B6037A925B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95488614-DDA2-4DCD-860A-B6037A925B46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A652143A-642A-4398-98CA-CF1D63329F8D} = {3392B6EE-8EA7-4E23-BDAD-CA216F0C4BCF}
+		{B47B9F61-6902-4B91-BC3E-06CA3071AC15} = {B22066C2-03B2-4254-A771-D5EB1451E51C}
+		{9D388AA8-F1AC-4A34-BDD4-DD8BE6799612} = {B22066C2-03B2-4254-A771-D5EB1451E51C}
+		{6302A99C-6070-4CE6-8D67-38C8B55F4D43} = {BFB94D37-E12E-4F47-AC52-AA9E39B9AF5C}
+		{4A895550-ED97-4A28-9F29-43C2ADFF8585} = {7FDBF41C-F10E-4C66-9519-00E66946E6DA}
+		{287C3809-D010-48D6-A52E-E07A2D1AADEB} = {4FFC21F3-7487-4A8D-8303-301A3DA8F142}
+		{17D10208-964B-4A85-AE27-DB1D7E39EA3B} = {BFB94D37-E12E-4F47-AC52-AA9E39B9AF5C}
+		{167FDEDA-875F-4A14-A4E4-3869A0BD6823} = {A6CD0B18-9FD4-4A0F-B45C-591CCFAB121A}
+		{D622FEF1-B9CD-41C1-939A-72C9EC31C296} = {A6CD0B18-9FD4-4A0F-B45C-591CCFAB121A}
+		{B572DE47-CA64-472E-9E8D-70BF492E781E} = {A6CD0B18-9FD4-4A0F-B45C-591CCFAB121A}
+		{95488614-DDA2-4DCD-860A-B6037A925B46} = {BFB94D37-E12E-4F47-AC52-AA9E39B9AF5C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A8920F23-3E34-4641-86B9-549BD543A015}
+	EndGlobalSection
+EndGlobal
