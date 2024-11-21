@@ -6,7 +6,7 @@ using Hackathon.SharedKernel.Factories;
 
 namespace Hackathon.Infra.Adapters
 {
-    public class AdapterFactory : IAdapterFactory
+    public class DetranAdapterFactory : IDetranAdapterFactory
     {
         public IAdapterDetran GetAdapterInstance(HackathonEnums.Detrans detrans)
         {

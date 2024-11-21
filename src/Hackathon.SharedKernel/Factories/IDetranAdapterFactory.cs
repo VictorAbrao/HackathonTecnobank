@@ -3,7 +3,7 @@ using static Hackathon.SharedKernel.Enums.HackathonEnums;
 
 namespace Hackathon.SharedKernel.Factories
 {
-    public interface IAdapterFactory
+    public interface IDetranAdapterFactory
     {
         IAdapterDetran GetAdapterInstance(Detrans detrans);
     }

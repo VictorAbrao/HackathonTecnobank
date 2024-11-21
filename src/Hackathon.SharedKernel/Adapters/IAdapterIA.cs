@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ErrorOr;
+using Hackathon.SharedKernel.Adapters.Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace Hackathon.SharedKernel.Adapters
 {
     public interface IAdapterIA
     {
+        Task<ErrorOr<bool>> IndexAsync(IList<ReadDetranPublicationResponse> publications, CancellationToken ct);
     }
 }

@@ -5,7 +5,6 @@ using Hackathon.Infra.ChatGPT;
 using Hackathon.Infra.Repository;
 using Hackathon.Infra.Jobs;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,8 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMediator();
+builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddFactories();
+builder.Services.AddAdapters();
 builder.Services.AddServices();
+builder.Services.AddUnitOfWork();
 builder.Services.AddRepositories();
 builder.Services.AddJobs();
 builder.Services.AddAdaptersDetrans();
