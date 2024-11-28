@@ -22,6 +22,8 @@ namespace Hackathon.AppService.Handlers
     {
         public async Task<ErrorOr<ReadPublicationCommandResponse>> Handle(ReadPublicationsCommandRequest request, CancellationToken ct)
         {
+
+            PublicationsEntity? publicationsEntity = null;
             try
             {
                 var validations = await new ReadPublicationsCommandRequestValidator()
@@ -34,7 +36,15 @@ namespace Hackathon.AppService.Handlers
 
                 var getPublicationByDetranResult = await publicationsService.GetByDetranAsync(request.Detran, ct);
 
-                var lastReadPublicationDate = DefineLastRun(getPublicationByDetranResult.Value);
+                if (getPublicationByDetranResult.IsError)
+                    return getPublicationByDetranResult.Errors;
+                else
+                    publicationsEntity = getPublicationByDetranResult.Value;
+
+                var lastReadPublicationDate = DefineLastRun(publicationsEntity);
+
+                if (getPublicationByDetranResult.Value is null)
+                    publicationsEntity = await InsertPublicationLastReadAsync(new PublicationsEntity() { LastReadPublications = lastReadPublicationDate, Detran = request.Detran }, ct);
 
                 var detranInstance = detranAdapterFactory.GetAdapterInstance(request.Detran);
 
@@ -46,7 +56,7 @@ namespace Hackathon.AppService.Handlers
                 if (detranReadPublicationsResult.Value.Publications.Any())
                     await IndexPublicationAtAdapterIAAsync(detranReadPublicationsResult!.Value!.Publications!, ct);
                     
-                await UpdatePublicationLastReadAsync(getPublicationByDetranResult!.Value!, ct);
+                await UpdatePublicationLastReadAsync(publicationsEntity, ct);
 
                 return new();
             }
@@ -62,11 +72,22 @@ namespace Hackathon.AppService.Handlers
         }
 
         protected DateTime DefineLastRun(PublicationsEntity publicationsEntity) 
-            => publicationsEntity is null ? DateTime.UtcNow.AddMinutes(-10) : publicationsEntity.LastReadPublications!.Value;
+            => publicationsEntity is null ? DateTime.UtcNow.AddDays(-1) : publicationsEntity.LastReadPublications!.Value.AddDays(-1);
 
         protected async Task IndexPublicationAtAdapterIAAsync(IList<ReadDetranPublicationResponse> publications, CancellationToken ct) 
         {
             await adapterIA.IndexAsync(publications, ct);
+        }
+
+        protected async Task<PublicationsEntity> InsertPublicationLastReadAsync(PublicationsEntity publicationsEntity, CancellationToken ct)
+        {
+            await unitOfWork.BeginTransactionAsync(ct);
+
+            await publicationsService.InsertAsync(publicationsEntity, ct);
+
+            await unitOfWork.CommitAsync(ct);
+
+            return publicationsEntity;
         }
 
         protected async Task UpdatePublicationLastReadAsync(PublicationsEntity publicationsEntity, CancellationToken ct) 

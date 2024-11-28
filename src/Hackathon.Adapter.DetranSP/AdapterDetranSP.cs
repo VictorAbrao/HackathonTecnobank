@@ -1,21 +1,19 @@
 ﻿using ErrorOr;
+using Flurl;
+using Flurl.Http;
+using Hackathon.Adapter.DetranSP.Mappers;
+using Hackathon.Adapter.DetranSP.Responses;
 using Hackathon.SharedKernel.Adapters;
 using Hackathon.SharedKernel.Adapters.Requests;
 using Hackathon.SharedKernel.Adapters.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hackathon.Adapter.DetranSP
 {
     public class AdapterDetranSP : IAdapterDetran
     {
-        private readonly string _baseAdressReadPublications = "";
-        private readonly string _baseAdressReadPublication = "";
+        private readonly string _baseAdress = "https://do-api-web-search.doe.sp.gov.br";
 
-        public async Task<ErrorOr<ReadDetranPublicationResponse>> ReadPublication(ReadDetranPublicationsRequest detranPublicationsRequest)
+        public async Task<ErrorOr<ReadDetranPublicationResponse>> ReadPublication(ReadDetranPublicationRequest detranPublicationsRequest)
         {
             return new ReadDetranPublicationResponse();
         }
@@ -24,9 +22,25 @@ namespace Hackathon.Adapter.DetranSP
         {
             var response = new ReadDetranPublicationsResponse();
 
-            response.Publications.Add(new ReadDetranPublicationResponse());
-            response.Publications.Add(new ReadDetranPublicationResponse());
-            response.Publications.Add(new ReadDetranPublicationResponse());
+            try
+            {
+                var result = await _baseAdress
+                    .AppendPathSegments("v2", "advanced-search", "publications")
+                    .AppendQueryParam("periodStartingDate", detranPublicationsRequest.LastReadPublicationDate.ToString("yyyy-MM-dd"))
+                    .AppendQueryParam("PageNumber", "1")
+                    .AppendQueryParam("FromDate", detranPublicationsRequest.LastReadPublicationDate.ToString("yyyy-MM-dd"))
+                    .AppendQueryParam("ToDate", detranPublicationsRequest.LastReadPublicationDate.AddDays(1).ToString("yyyy-MM-dd"))
+                    .AppendQueryParam("PageSize", "5000")
+                    .AppendQueryParam("SortField", "Date")
+                    .GetJsonAsync<ReadPublicationDetranSPResponse>();
+
+                foreach (var item in result.Items)
+                    response.Publications.Add(PublicationDetranSPMapper.ToResponse(item));
+            }
+            catch (FlurlHttpException fhe)
+            {
+                var responseContent = await fhe.GetResponseStringAsync();
+            }
 
             return response;
         }

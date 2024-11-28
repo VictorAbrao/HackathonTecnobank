@@ -12,6 +12,6 @@ namespace Hackathon.SharedKernel.Adapters
     public interface IAdapterDetran
     {
         Task<ErrorOr<ReadDetranPublicationsResponse>> ReadPublications(ReadDetranPublicationsRequest detranPublicationsRequest);
-        Task<ErrorOr<ReadDetranPublicationResponse>> ReadPublication(ReadDetranPublicationsRequest detranPublicationsRequest);
+        Task<ErrorOr<ReadDetranPublicationResponse>> ReadPublication(ReadDetranPublicationRequest detranPublicationsRequest);
     }
 }
