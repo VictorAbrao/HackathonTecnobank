@@ -1,4 +1,5 @@
-﻿using Hackathon.AppService.Commands.Requests.Publications;
+﻿using Hackathon.AppService.Queries.Requests.Concierge;
+using Hackathon.AppService.Queries.Requests.Publications;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,7 @@ namespace Hackathon.Api.Controllers
     public class ConciergeController(ILogger<ConciergeController> logger, IMediator mediator) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> GetAsync([FromBody] ReadPublicationsCommandRequest request, CancellationToken ct)
+        public async Task<IActionResult> GetAsync([FromBody] ReadConciergesQueryRequest request, CancellationToken ct)
         {
             var result = await mediator.Send(request, ct);
 

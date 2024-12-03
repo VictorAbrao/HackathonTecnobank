@@ -3,6 +3,7 @@ using Hackathon.Domain.Entities;
 using Hackathon.Domain.Repositories;
 using Hackathon.Domain.Services;
 using Hackathon.SharedKernel.Data;
+using static Hackathon.SharedKernel.Enums.HackathonEnums;
 
 namespace Hackathon.AppService.Services
 {
@@ -10,120 +11,44 @@ namespace Hackathon.AppService.Services
     {
         public async Task<ErrorOr<bool>> DeleteAsync(int conciergeId, CancellationToken ct)
         {
-            try
-            {
-                await unitOfWork.OpenAsync(ct);
+            await conciergeRepository.DeleteAsync(conciergeId, ct);
+            return true;
+        }
 
-                await unitOfWork.BeginTransactionAsync(ct);
-
-                await conciergeRepository.DeleteAsync(conciergeId, ct);
-
-                await unitOfWork.CommitAsync(ct);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                await unitOfWork.RollbackAsync(ct);
-                throw;
-            }
-            finally
-            {
-                await unitOfWork.CloseAsync(ct);
-            }
+        public async Task<bool> ExistsExternalIdAsync(string externalId, Detrans detrans, CancellationToken ct)
+        {
+            return await conciergeRepository.ExistsExternalIdAsync(externalId, detrans, ct);
         }
 
         public async Task<ErrorOr<bool>> InsertAsync(ConciergeEntity conciergeEntity, CancellationToken ct)
         {
-            try
-            {
-                await unitOfWork.OpenAsync(ct);
+            await conciergeRepository.InsertAsync(conciergeEntity, ct);
 
-                await unitOfWork.BeginTransactionAsync(ct);
-
-                await conciergeRepository.InsertAsync(conciergeEntity, ct);
-
-                await unitOfWork.CommitAsync(ct);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                await unitOfWork.RollbackAsync(ct);
-                throw;
-            }
-            finally
-            {
-                await unitOfWork.CloseAsync(ct);
-            }
+            return true;
         }
 
         public async Task<ErrorOr<ConciergeEntity?>> ReadAsync(int conciergeId, CancellationToken ct)
         {
-            try
-            {
-                await unitOfWork.OpenAsync(ct);
+            var result = await conciergeRepository.ReadAsync(conciergeId, ct);
 
-                var result = await conciergeRepository.ReadAsync(conciergeId, ct);
+            if (result is null)
+                return Error.NotFound("", "Concierge not found");
 
-                if (result is null)
-                    return Error.NotFound("", "Concierge not found");
-
-                return result;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                await unitOfWork.CloseAsync(ct);
-            }
+            return result;
         }
 
         public async Task<ErrorOr<List<ConciergeEntity>>> ReadAsync(CancellationToken ct)
         {
-            try
-            {
-                await unitOfWork.OpenAsync(ct);
+            var result = await conciergeRepository.ReadAsync(ct);
 
-                var result = await conciergeRepository.ReadAsync(ct);
-
-                return result;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                await unitOfWork.CloseAsync(ct);
-            }
+            return result;
         }
 
         public async Task<ErrorOr<bool>> UpdateAsync(ConciergeEntity conciergeEntity, CancellationToken ct)
         {
-            try
-            {
-                await unitOfWork.OpenAsync(ct);
 
-                await unitOfWork.BeginTransactionAsync(ct);
-
-                await conciergeRepository.UpdateAsync(conciergeEntity, ct);
-
-                await unitOfWork.CommitAsync(ct);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                await unitOfWork.RollbackAsync(ct);
-                throw;
-            }
-            finally
-            {
-                await unitOfWork.CloseAsync(ct);
-            }
+            await conciergeRepository.UpdateAsync(conciergeEntity, ct);
+            return true;           
         }
     }
 }

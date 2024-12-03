@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hackathon.AppService.Commands.Responses.Publications
+namespace Hackathon.AppService.Handlers.Concierge
 {
-    public class ReadPublicationCommandResponse
+    internal class ReadConciergesQueryRequestHandler
     {
     }
 }

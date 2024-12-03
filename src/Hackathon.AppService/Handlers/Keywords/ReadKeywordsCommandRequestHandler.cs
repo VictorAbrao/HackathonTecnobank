@@ -1,18 +1,18 @@
 ﻿using ErrorOr;
-using Hackathon.AppService.Commands.Requests.Keywords;
-using Hackathon.AppService.Commands.Responses.Keywords;
 using Hackathon.AppService.Mappers;
+using Hackathon.AppService.Queries.Requests.Keywords;
+using Hackathon.AppService.Queries.Responses.Keywords;
 using Hackathon.Domain.Services;
 using Hackathon.SharedKernel.Data;
 using MediatR;
 
 namespace Hackathon.AppService.Handlers.Keywords
 {
-    public class ReadKeywordsCommandRequestHandler(IKeywordsService keywordsService, IUnitOfWork unitOfWork) : IRequestHandler<ReadKeywordsCommandRequest, ErrorOr<IList<ReadKeywordsCommandResponse>>>
+    public class ReadKeywordsCommandRequestHandler(IKeywordsService keywordsService, IUnitOfWork unitOfWork) : IRequestHandler<ReadKeywordsQueryRequest, ErrorOr<IList<ReadKeywordsQueryResponse>>>
     {
-        public async Task<ErrorOr<IList<ReadKeywordsCommandResponse>>> Handle(ReadKeywordsCommandRequest request, CancellationToken ct)
+        public async Task<ErrorOr<IList<ReadKeywordsQueryResponse>>> Handle(ReadKeywordsQueryRequest request, CancellationToken ct)
         {
-			var response = new List<ReadKeywordsCommandResponse>();
+			var response = new List<ReadKeywordsQueryResponse>();
 
 			try
 			{

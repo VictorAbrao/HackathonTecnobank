@@ -1,6 +1,6 @@
 ﻿using Azure.Core;
 using Hackathon.AppService.Commands.Requests.Keywords;
-using Hackathon.AppService.Commands.Responses.Keywords;
+using Hackathon.AppService.Queries.Responses.Keywords;
 using Hackathon.Domain.Entities;
 using static Hackathon.SharedKernel.Enums.HackathonEnums;
 
@@ -40,13 +40,13 @@ namespace Hackathon.AppService.Mappers
 
         internal static string[] ToSubWords(string subWords)
             => subWords.Length > 0 ? subWords.Split(',').OrderBy(o => o).ToArray() : [];
-        internal static List<ReadKeywordsCommandResponse> ToResponse(IList<KeywordEntity> keywordEntities) 
+        internal static List<ReadKeywordsQueryResponse> ToResponse(IList<KeywordEntity> keywordEntities) 
         {
-            var response = new List<ReadKeywordsCommandResponse>();
+            var response = new List<ReadKeywordsQueryResponse>();
 
             foreach (var keywordEntity in keywordEntities)
             {
-                response.Add(new ReadKeywordsCommandResponse()
+                response.Add(new ReadKeywordsQueryResponse()
                 {
                     Word = keywordEntity.Word,
                     Detran = keywordEntity.Detran,
@@ -58,9 +58,9 @@ namespace Hackathon.AppService.Mappers
             return response;
         }
 
-        internal static ReadByIdKeywordCommandResponse ToResponse(KeywordEntity keywordEntity)
+        internal static ReadByIdKeywordQueryResponse ToResponse(KeywordEntity keywordEntity)
         {
-            var response = new ReadByIdKeywordCommandResponse();
+            var response = new ReadByIdKeywordQueryResponse();
             response.Word = keywordEntity.Word;
             response.Detran = keywordEntity.Detran;
             response.Id = keywordEntity.Id;

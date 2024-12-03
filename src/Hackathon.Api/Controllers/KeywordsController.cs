@@ -1,4 +1,5 @@
 ﻿using Hackathon.AppService.Commands.Requests.Keywords;
+using Hackathon.AppService.Queries.Requests.Keywords;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,7 +52,7 @@ namespace Hackathon.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ReadByIdAsync(int id, CancellationToken ct)
         {
-            var request = new ReadByIdKeywordCommandRequest();
+            var request = new ReadByIdKeywordQueryRequest();
 
             request.DefineId(id);
 
@@ -71,7 +72,7 @@ namespace Hackathon.Api.Controllers
         [HttpGet()]
         public async Task<IActionResult> ReadAsync(CancellationToken ct)
         {
-            var request = new ReadKeywordsCommandRequest();
+            var request = new ReadKeywordsQueryRequest();
 
             var result = await mediator.Send(request, ct);
 

@@ -13,5 +13,12 @@ namespace Hackathon.SharedKernel.Enums
             SP = 1,
             MS = 2
         }
+
+        public enum ConciergeStatus 
+        {
+            New = 1,
+            Approved = 2,
+            Denied = 3
+        }       
     }
 }

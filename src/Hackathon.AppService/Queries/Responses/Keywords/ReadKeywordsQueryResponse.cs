@@ -1,6 +1,6 @@
-﻿namespace Hackathon.AppService.Commands.Responses.Keywords
+﻿namespace Hackathon.AppService.Queries.Responses.Keywords
 {
-    public class ReadKeywordsCommandResponse
+    public class ReadKeywordsQueryResponse
     {
         public int Id { get; set; }
         public required string Word { get; set; }

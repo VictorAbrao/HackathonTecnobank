@@ -1,7 +1,9 @@
 ﻿using ErrorOr;
-using Hackathon.AppService.Commands.Requests.Publications;
-using Hackathon.AppService.Commands.Responses.Publications;
+using Hackathon.AppService.Mappers;
+using Hackathon.AppService.Queries.Requests.Publications;
+using Hackathon.AppService.Queries.Responses.Publications;
 using Hackathon.AppService.Validators;
+using Hackathon.AppService.Validators.Publications;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Services;
 using Hackathon.SharedKernel.Adapters;
@@ -14,23 +16,24 @@ using static Hackathon.SharedKernel.Enums.HackathonEnums;
 
 namespace Hackathon.AppService.Handlers.Publications
 {
-    public class ReadPublicationsCommandRequestHandler(
+    public class ReadPublicationsQueryRequestHandler(
         IKeywordsService keywordsService,
+        IConciergeService conciergeService,
         IUnitOfWork unitOfWork,
         IPublicationsService publicationsService,
         IDetranAdapterFactory detranAdapterFactory,
         IAdapterIA adapterIA)
-        : IRequestHandler<ReadPublicationsCommandRequest, ErrorOr<ReadPublicationCommandResponse>>
+        : IRequestHandler<ReadPublicationsQueryRequest, ErrorOr<ReadPublicationQueryResponse>>
     {
         private List<string> Keywords = new();
 
-        public async Task<ErrorOr<ReadPublicationCommandResponse>> Handle(ReadPublicationsCommandRequest request, CancellationToken ct)
+        public async Task<ErrorOr<ReadPublicationQueryResponse>> Handle(ReadPublicationsQueryRequest request, CancellationToken ct)
         {
             PublicationsEntity? publicationsEntity = null;
 
             try
             {
-                var validations = await new ReadPublicationsCommandRequestValidator()
+                var validations = await new ReadPublicationsQueryRequestValidator()
                     .ValidateAsync(request, ct);
 
                 if (!validations.IsValid)
@@ -66,7 +69,7 @@ namespace Hackathon.AppService.Handlers.Publications
                 {
                     var publicationsAnalyzed = AnalyzePublications(detranReadPublicationsResult.Value.Publications, ct);
 
-                    await InsertUpdatePublicationsAsync(publicationsAnalyzed, ct);
+                    await InsertUpdateConciergesAsync(publicationsAnalyzed, request.Detran, ct);
                 }
 
                 await UpdatePublicationLastReadAsync(publicationsEntity, ct);
@@ -143,7 +146,39 @@ namespace Hackathon.AppService.Handlers.Publications
             return publicationToIndex;
         }
 
-        protected async Task InsertUpdatePublicationsAsync(IList<ReadDetranPublicationResponse> readDetranPublicationResponses,CancellationToken ct) { }
+        protected async Task InsertUpdateConciergesAsync(IList<ReadDetranPublicationResponse> readDetranPublicationResponses,Detrans detran, CancellationToken ct) 
+        {
+            try
+            {
+                await unitOfWork.BeginTransactionAsync(ct);
+
+                foreach (var readDetranPublicationResponse in readDetranPublicationResponses)
+                {
+                    try
+                    {
+                        var existsExternalId = await conciergeService.ExistsExternalIdAsync(readDetranPublicationResponse.Id, detran, ct);
+
+                        if (!existsExternalId)
+                        {
+                            var conciergeEntity = ConciergeMapper.ToEntity(readDetranPublicationResponse, detran);
+
+                            await conciergeService.InsertAsync(conciergeEntity, ct);
+                        }
+                    }
+                    catch (Exception)
+                    {                        
+                        continue;
+                    }
+                }
+
+                await unitOfWork.CommitAsync(ct);
+            }
+            catch (Exception)
+            {
+                await unitOfWork.RollbackAsync(ct);
+                throw;
+            }
+        }
     }
 }
 

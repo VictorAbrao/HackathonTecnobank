@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using Hackathon.Domain.Entities;
+using static Hackathon.SharedKernel.Enums.HackathonEnums;
 
 namespace Hackathon.Domain.Services
 {
@@ -10,5 +11,6 @@ namespace Hackathon.Domain.Services
         Task<ErrorOr<ConciergeEntity>> ReadAsync(int conciergeId, CancellationToken ct);
         Task<ErrorOr<List<ConciergeEntity>>> ReadAsync(CancellationToken ct);
         Task<ErrorOr<bool>> DeleteAsync(int conciergeId, CancellationToken ct);
+        Task<bool> ExistsExternalIdAsync(string externalId, Detrans detrans, CancellationToken ct);
     }
 }

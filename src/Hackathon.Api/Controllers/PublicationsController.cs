@@ -1,4 +1,4 @@
-﻿using Hackathon.AppService.Commands.Requests.Publications;
+﻿using Hackathon.AppService.Queries.Requests.Publications;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +9,7 @@ namespace Hackathon.Api.Controllers
     public class PublicationsController(ILogger<PublicationsController> logger, IMediator mediator) : ControllerBase
     {                    
         [HttpPost]
-        public async Task<IActionResult> RunAsync([FromBody] ReadPublicationsCommandRequest request, CancellationToken ct)
+        public async Task<IActionResult> RunAsync([FromBody] ReadPublicationsQueryRequest request, CancellationToken ct)
         {
             var result = await mediator.Send(request, ct);
 

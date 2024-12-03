@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Hackathon.AppService.Commands.Responses.Keywords
+namespace Hackathon.AppService.Queries.Responses.Keywords
 {
-    public class ReadByIdKeywordCommandResponse
+    public class ReadByIdKeywordQueryResponse
     {
         [JsonIgnore]
         public int Id { get; set; }

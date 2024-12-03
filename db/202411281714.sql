@@ -33,3 +33,19 @@ create table Keywords
 	CreatedAt datetime not null,
 	UpdatedAt datetime null,
 )
+
+
+create table Concierge
+(
+	Id int not null identity primary key,
+	ExternalId varchar(255) not null,
+	ExternalLink varchar(255) null,
+	Detran int not null,
+	Title varchar(255) not null,
+	Status int not null,	
+	[Body] varchar(max) not null,
+	[Document] varchar(max) not null,
+	Date datetime not null,
+	CreatedAt datetime not null,
+	UpdatedAt datetime null
+)
