@@ -44,8 +44,8 @@ create table Concierge
 	Title varchar(255) not null,
 	Status int not null,	
 	[Body] varchar(max) not null,
-	[Document] varchar(max) not null,
-	Date datetime not null,
+	[Document] varchar(max) null,
+	[Date] datetime not null,
 	CreatedAt datetime not null,
 	UpdatedAt datetime null
 )

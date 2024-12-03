@@ -27,7 +27,7 @@ namespace Hackathon.AppService.Services
             return true;
         }
 
-        public async Task<ErrorOr<ConciergeEntity?>> ReadAsync(int conciergeId, CancellationToken ct)
+        public async Task<ErrorOr<ConciergeEntity?>> ReadByIdAsync(int conciergeId, CancellationToken ct)
         {
             var result = await conciergeRepository.ReadAsync(conciergeId, ct);
 
@@ -37,16 +37,15 @@ namespace Hackathon.AppService.Services
             return result;
         }
 
-        public async Task<ErrorOr<List<ConciergeEntity>>> ReadAsync(CancellationToken ct)
+        public async Task<ErrorOr<List<ConciergeEntity>>> ReadAsync(Detrans detran, CancellationToken ct)
         {
-            var result = await conciergeRepository.ReadAsync(ct);
+            var result = await conciergeRepository.ReadAsync(detran, ct);
 
             return result;
         }
 
         public async Task<ErrorOr<bool>> UpdateAsync(ConciergeEntity conciergeEntity, CancellationToken ct)
         {
-
             await conciergeRepository.UpdateAsync(conciergeEntity, ct);
             return true;           
         }

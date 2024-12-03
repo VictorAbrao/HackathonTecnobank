@@ -8,5 +8,7 @@ namespace Hackathon.AppService.Queries.Requests.Concierge
     public class ReadConciergesQueryRequest : IRequest<ErrorOr<IList<ReadConciergesQueryResponse>>>
     {
         public Detrans Detran { get; set; }
+
+        public void DefineDetran(Detrans detran) => Detran = detran;
     }
 }

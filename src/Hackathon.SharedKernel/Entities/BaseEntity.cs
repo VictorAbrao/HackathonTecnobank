@@ -7,5 +7,6 @@
         public DateTime? UpdatedAt { get; set; }
 
         public void DefineId(int id) => Id = id;
+        public void DefineUpdateAt(DateTime updatedAt) => UpdatedAt = updatedAt;
     }
 }

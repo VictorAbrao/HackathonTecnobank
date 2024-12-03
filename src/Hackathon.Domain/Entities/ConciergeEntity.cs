@@ -13,5 +13,7 @@ namespace Hackathon.Domain.Entities
         public string Body { get; set; }
         public string? Document { get; set; }
         public DateTime? Date { get; set; }
+
+        public void DefineStatus(ConciergeStatus status) => Status = status;
     }
 }

@@ -4,6 +4,7 @@ using Hackathon.Infra.Adapters;
 using Hackathon.Infra.ChatGPT;
 using Hackathon.Infra.Repository;
 using Hackathon.Infra.Jobs;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,7 @@ builder.Services.AddAdapters();
 builder.Services.AddServices();
 builder.Services.AddUnitOfWork();
 builder.Services.AddRepositories();
-builder.Services.AddJobs();
+builder.Services.AddJobs(builder.Configuration);
 builder.Services.AddAdaptersDetrans();
 builder.Services.AddAdapterIAChatGPT();
 
@@ -30,6 +31,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureJobs();
 
 app.UseHttpsRedirection();
 

@@ -53,20 +53,43 @@ namespace Hackathon.Infra.Repository.Repositories
             return await unitOfWork.Connection.QueryFirstOrDefaultAsync<ConciergeEntity?>(new CommandDefinition(sql, new { conciergeId }, cancellationToken: ct));
         }
 
-        public async Task<List<ConciergeEntity>> ReadAsync(CancellationToken ct)
+        public async Task<List<ConciergeEntity>> ReadAsync(Detrans detran, CancellationToken ct)
         {
-            var sql = @$"select * from concierge order by Name desc";
+            var sql = @$"select * from concierge where Detran = @detran order by Date desc";
 
-            var result = await unitOfWork.Connection.QueryAsync<ConciergeEntity>(new CommandDefinition(sql, new { }, cancellationToken: ct));
+            var result = await unitOfWork.Connection.QueryAsync<ConciergeEntity>(new CommandDefinition(sql, new { detran }, cancellationToken: ct));
 
             return result.ToList();
         }
 
         public async Task UpdateAsync(ConciergeEntity conciergeEntity, CancellationToken ct)
         {
-            var sql = @$"update ";
+            var sql = @$"UPDATE Concierge
+                            SET 
+                                ExternalId = @ExternalId, 
+                                ExternalLink = @ExternalLink, 
+                                Detran = @Detran, 
+                                Title = @Title, 
+                                Status = @Status, 
+                                Body = @Body, 
+                                Document = @Document, 
+                                [Date]= @Date, 
+                                UpdatedAt = @UpdatedAt
+                            WHERE Id=@Id";
 
-            await unitOfWork.Connection.ExecuteAsync(new CommandDefinition(sql, new { conciergeEntity }, transaction: unitOfWork.Transaction, cancellationToken: ct));
+            await unitOfWork.Connection.ExecuteAsync(new CommandDefinition(sql, new
+            {
+                conciergeEntity.Id,
+                conciergeEntity.ExternalId,
+                conciergeEntity.ExternalLink,
+                conciergeEntity.Detran,
+                conciergeEntity.Title,
+                conciergeEntity.Status,
+                conciergeEntity.Body,
+                conciergeEntity.Document,
+                conciergeEntity.Date,
+                conciergeEntity.UpdatedAt
+            }, transaction: unitOfWork.Transaction, cancellationToken: ct));
         }
     }
 }
