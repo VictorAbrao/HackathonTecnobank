@@ -6,10 +6,10 @@ namespace Hackathon.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PublicationsController(ILogger<PublicationsController> logger, IMediator mediator) : ControllerBase
-    {                    
+    public class ConciergeController(ILogger<ConciergeController> logger, IMediator mediator) : ControllerBase
+    {
         [HttpPost]
-        public async Task<IActionResult> RunAsync([FromBody] ReadPublicationsCommandRequest request, CancellationToken ct)
+        public async Task<IActionResult> GetAsync([FromBody] ReadPublicationsCommandRequest request, CancellationToken ct)
         {
             var result = await mediator.Send(request, ct);
 

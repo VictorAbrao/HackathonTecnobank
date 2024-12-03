@@ -9,6 +9,8 @@ namespace Hackathon.AppService
         public static void AddServices(this IServiceCollection services) 
         {
             services.AddScoped<IPublicationsService, PublicationsService>();
+            services.AddScoped<IKeywordsService, KeywordsService>();
+            services.AddScoped<IConciergeService, ConciergeService>();
         }
     }
 }

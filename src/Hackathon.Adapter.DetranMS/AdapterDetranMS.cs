@@ -7,14 +7,14 @@ namespace Hackathon.Adapter.DetranMS
 {
     public class AdapterDetranMS : IAdapterDetran
     {
-        public Task<ErrorOr<ReadDetranPublicationResponse>> ReadPublication(ReadDetranPublicationRequest detranPublicationsRequest)
+        public async Task<ErrorOr<ReadDetranPublicationResponse>> ReadPublication(ReadDetranPublicationRequest detranPublicationsRequest)
         {
-            throw new NotImplementedException();
+            return new();
         }
 
-        public Task<ErrorOr<ReadDetranPublicationsResponse>> ReadPublications(ReadDetranPublicationsRequest detranPublicationsRequest)
+        public async Task<ErrorOr<ReadDetranPublicationsResponse>> ReadPublications(ReadDetranPublicationsRequest detranPublicationsRequest)
         {
-            throw new NotImplementedException();
+            return new();
         }
     }
 }

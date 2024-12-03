@@ -21,3 +21,15 @@ create table Publications
 
 insert into Detran (Codigo,Nome) values (1,'SP');
 insert into Detran  (Codigo,Nome) values (2,'MS');
+
+
+create table Keywords
+(
+	Id int not null identity primary key,
+	WordParentId int null,
+	Detran int not null,
+	Word varchar(100) not null,	
+	SubWords varchar(max) null,	
+	CreatedAt datetime not null,
+	UpdatedAt datetime null,
+)

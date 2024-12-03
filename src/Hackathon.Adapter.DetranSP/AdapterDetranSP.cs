@@ -32,10 +32,21 @@ namespace Hackathon.Adapter.DetranSP
                     .AppendQueryParam("ToDate", detranPublicationsRequest.LastReadPublicationDate.AddDays(1).ToString("yyyy-MM-dd"))
                     .AppendQueryParam("PageSize", "5000")
                     .AppendQueryParam("SortField", "Date")
-                    .GetJsonAsync<ReadPublicationDetranSPResponse>();
+                    .GetJsonAsync<ReadPublicationsDetranSPResponse>();
 
                 foreach (var item in result.Items)
-                    response.Publications.Add(PublicationDetranSPMapper.ToResponse(item));
+                {
+                    try
+                    {
+                        var publicationData = await ReadPublicationContentAsync(item.Slug);
+
+                        response.Publications.Add(PublicationDetranSPMapper.ToResponse(item, publicationData));
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
             }
             catch (FlurlHttpException fhe)
             {
@@ -43,6 +54,15 @@ namespace Hackathon.Adapter.DetranSP
             }
 
             return response;
+        }
+
+        private async Task<ReadPublicationDetranSPResponse> ReadPublicationContentAsync(string slug)
+        {
+            var result = await _baseAdress
+                        .AppendPathSegments("v2", "publications", slug)
+                        .GetJsonAsync<ReadPublicationDetranSPResponse>();
+
+            return result;
         }
     }
 }

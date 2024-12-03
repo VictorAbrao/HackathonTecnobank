@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Hackathon.AppService.Commands.Requests;
+using Hackathon.AppService.Commands.Requests.Publications;
 using System;
 using System.Collections.Generic;
 using System.Linq;

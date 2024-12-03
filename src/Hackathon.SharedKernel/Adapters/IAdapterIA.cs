@@ -10,6 +10,7 @@ namespace Hackathon.SharedKernel.Adapters
 {
     public interface IAdapterIA
     {
+        Task<ErrorOr<bool>> IndexAsync(ReadDetranPublicationResponse publication, CancellationToken ct);
         Task<ErrorOr<bool>> IndexAsync(IList<ReadDetranPublicationResponse> publications, CancellationToken ct);
     }
 }

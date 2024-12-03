@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hackathon.AppService.Commands.Responses
+namespace Hackathon.AppService.Commands.Responses.Publications
 {
     public class ReadPublicationCommandResponse
     {

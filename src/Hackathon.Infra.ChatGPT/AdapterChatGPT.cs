@@ -11,5 +11,11 @@ namespace Hackathon.Infra.ChatGPT
 #warning Implementar ChatGPT Adapter
             return true;
         }
+
+        public async Task<ErrorOr<bool>> IndexAsync(ReadDetranPublicationResponse publication, CancellationToken ct)
+        {
+#warning Implementar ChatGPT Adapter
+            return true;
+        }
     }
 }
