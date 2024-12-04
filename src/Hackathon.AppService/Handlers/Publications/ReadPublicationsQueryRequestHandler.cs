@@ -129,19 +129,24 @@ namespace Hackathon.AppService.Handlers.Publications
         {
             var publicationToIndex = new List<ReadDetranPublicationResponse>();
 
-            foreach (var publication in publications)
+            if (Keywords.Any())
             {
-                var content = publication.Content;
-
-                foreach (var keyword in Keywords)
+                foreach (var publication in publications)
                 {
-                    if (content.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                    var content = publication.Content;
+
+                    foreach (var keyword in Keywords)
                     {
-                        publicationToIndex.Add(publication);
-                        break;
+                        if (content.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                        {
+                            publicationToIndex.Add(publication);
+                            break;
+                        }
                     }
                 }
             }
+            else
+                publicationToIndex.AddRange(publications);
 
             return publicationToIndex;
         }

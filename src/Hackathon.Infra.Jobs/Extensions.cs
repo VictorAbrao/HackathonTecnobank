@@ -22,11 +22,12 @@ namespace Hackathon.Infra.Jobs
             services.AddHangfireServer();
         }
 
-        public static void ConfigureJobs(this IApplicationBuilder app)
+        public static void ConfigureJobs(this IApplicationBuilder app, IRecurringJobManager recurringJobManager)
         {
-            app.UseHangfireDashboard();
+            app.UseHangfireDashboard("/jobs");
 
-            RecurringJob.AddOrUpdate<IMediator>("ReadPublications_SP", x => x.Send(new ReadPublicationsQueryRequest() { Detran = SharedKernel.Enums.HackathonEnums.Detrans.SP }, default), "0 0 * * *");
+            recurringJobManager.AddOrUpdate<IMediator>("ReadPublications_SP", x => x.Send(new ReadPublicationsQueryRequest() { Detran = SharedKernel.Enums.HackathonEnums.Detrans.SP }, default), "0 0 * * *");
         }
+
     }
 }
