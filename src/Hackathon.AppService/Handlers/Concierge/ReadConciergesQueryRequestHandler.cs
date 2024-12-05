@@ -13,22 +13,24 @@ using System.Threading.Tasks;
 
 namespace Hackathon.AppService.Handlers.Concierge
 {
-    public class ReadConciergesQueryRequestHandler(IConciergeService conciergeService, IUnitOfWork unitOfWork) : IRequestHandler<ReadConciergesQueryRequest, ErrorOr<IList<ReadConciergesQueryResponse>>>
+    public class ReadConciergesQueryRequestHandler(IConciergeService conciergeService, IUnitOfWork unitOfWork) : IRequestHandler<ReadConciergesQueryRequest, ErrorOr<ReadConciergesQueryResponse>>
     {
-        public async Task<ErrorOr<IList<ReadConciergesQueryResponse>>> Handle(ReadConciergesQueryRequest request, CancellationToken ct)
+        public async Task<ErrorOr<ReadConciergesQueryResponse>> Handle(ReadConciergesQueryRequest request, CancellationToken ct)
         {
-            var response = new List<ReadConciergesQueryResponse>();
+            var response = new ReadConciergesQueryResponse();
 
             try
 			{
+                var readConciergesRequestDTO = ConciergeMapper.ToDto(request);
+
                 await unitOfWork.OpenAsync(ct);
 
-                var conciergeEntities = await conciergeService.ReadAsync(request.Detran, ct);
+                var readConciergesResponseDTO = await conciergeService.ReadAsync(readConciergesRequestDTO, ct);
 
-                if (conciergeEntities.IsError)
-                    return conciergeEntities.Errors;
+                if (readConciergesResponseDTO.IsError)
+                    return readConciergesResponseDTO.Errors;
 
-                response = ConciergeMapper.ToResponse(conciergeEntities.Value);                
+                response = ConciergeMapper.ToResponse(readConciergesRequestDTO, readConciergesResponseDTO.Value);
             }
 			catch (Exception ex)
 			{

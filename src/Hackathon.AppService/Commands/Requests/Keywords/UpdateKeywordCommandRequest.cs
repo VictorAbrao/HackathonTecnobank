@@ -9,7 +9,7 @@ namespace Hackathon.AppService.Commands.Requests.Keywords
     {
         [JsonIgnore]
         public int Id { get; set; }
-        public int Detran { get; set; }
+        public string UF { get; set; }
         public string Word { get; set; }
         public IList<string> SubWords { get; set; }
         public void DefineId(int id) => Id = id;

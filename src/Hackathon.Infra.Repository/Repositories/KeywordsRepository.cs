@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
+using Hackathon.Domain.DTOs;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Repositories;
 using Hackathon.SharedKernel.Data;
@@ -44,13 +46,46 @@ namespace Hackathon.Infra.Repository.Repositories
             return await unitOfWork.Connection.QueryFirstOrDefaultAsync<KeywordEntity?>(new CommandDefinition(sql, new { keywordId }, cancellationToken: ct));
         }
 
-        public async Task<List<KeywordEntity>> ReadAsync(int? wordParentId, CancellationToken ct)
+        public async Task<ReadKeywordsResponseDTO> ReadAsync(ReadKeywordsRequestDTO readKeywordsRequestDTO, CancellationToken ct)
         {
-            var sql = @$"select * from Keywords with(nolock) where WordParentId {(wordParentId is null ? " is NULL" : " = @wordParentId")} order by Word asc";
+            var response = new ReadKeywordsResponseDTO();
 
-            var result = await unitOfWork.Connection.QueryAsync<KeywordEntity>(new CommandDefinition(sql, new { wordParentId }, cancellationToken: ct));
+            var sqlFilters = $" 1=1";
 
-            return result.ToList();
+            if (readKeywordsRequestDTO.UF.HasValue)
+                sqlFilters += $" AND Detran = {readKeywordsRequestDTO.UF}";
+
+            if (!string.IsNullOrEmpty(readKeywordsRequestDTO.Word))
+                sqlFilters += $" AND Word like '{readKeywordsRequestDTO.Word}%'";
+
+            if (readKeywordsRequestDTO.SubWords.Any()) 
+            {
+                int subWordCounter = 0;
+                sqlFilters += $"AND (";
+
+                foreach (var subWord in readKeywordsRequestDTO.SubWords)
+                {
+                    sqlFilters += $"{(subWordCounter == 0 ? "" : "OR")} (Word like '%{subWord}%')";
+
+                    subWordCounter++;
+                }
+
+                sqlFilters += $")";
+            }
+            var sqlCounter = @$"select count(1) from Keywords with(nolock) where {sqlFilters}";
+
+            var sqlWithFilters = @$"select * from Keywords with(nolock) where {sqlFilters} order by Word asc                                          
+                                         OFFSET @OffSet ROWS
+                                         FETCH NEXT @Limit ROWS ONLY";
+            
+            var totalItems = await unitOfWork.Connection.QueryFirstOrDefaultAsync<int>(new CommandDefinition(sqlCounter, new { }, cancellationToken: ct));
+
+            var items = await unitOfWork.Connection.QueryAsync<KeywordEntity>(new CommandDefinition(sqlWithFilters, new { readKeywordsRequestDTO.OffSet, readKeywordsRequestDTO.Limit }, cancellationToken: ct));
+
+            response.TotalItems  = totalItems;
+            response.Items  = items.ToList();
+
+            return response;
         }
 
         public async Task UpdateAsync(KeywordEntity keywordEntity, CancellationToken ct)

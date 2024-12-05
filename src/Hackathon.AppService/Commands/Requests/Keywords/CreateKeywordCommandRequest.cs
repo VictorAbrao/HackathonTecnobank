@@ -6,7 +6,7 @@ namespace Hackathon.AppService.Commands.Requests.Keywords
 {
     public class CreateKeywordCommandRequest : IRequest<ErrorOr<CreateKeywordCommandResponse>>
     {
-        public int Detran { get; set; }
+        public string UF { get; set; }
         public required string Word { get; set; }
         public required IList<string> SubWords { get; set; }
     }

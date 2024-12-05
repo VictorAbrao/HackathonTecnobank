@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using Hackathon.Domain.DTOs;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Repositories;
 using Hackathon.Domain.Services;
@@ -29,9 +30,9 @@ namespace Hackathon.AppService.Services
             return result;
         }
 
-        public async Task<ErrorOr<List<KeywordEntity>>> ReadAsync(int? wordParentId, CancellationToken ct)
+        public async Task<ErrorOr<ReadKeywordsResponseDTO>> ReadAsync(ReadKeywordsRequestDTO readKeywordsRequestDTO, CancellationToken ct)
         {
-            return await repository.ReadAsync(wordParentId, ct);
+            return await repository.ReadAsync(readKeywordsRequestDTO, ct);
         }
 
         public async Task<ErrorOr<bool>> UpdateAsync(KeywordEntity entity, CancellationToken ct)

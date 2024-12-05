@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using Azure.Core;
+using Dapper;
+using Hackathon.Domain.DTOs;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Repositories;
 using Hackathon.SharedKernel.Data;
@@ -46,20 +48,46 @@ namespace Hackathon.Infra.Repository.Repositories
             }, transaction: unitOfWork.Transaction, cancellationToken: ct));
         }
 
-        public async Task<ConciergeEntity?> ReadAsync(int conciergeId, CancellationToken ct)
+        public async Task<ConciergeEntity?> ReadByIdAsync(int conciergeId, CancellationToken ct)
         {
             var sql = @$"select * from concierge where id = @conciergeId";
 
             return await unitOfWork.Connection.QueryFirstOrDefaultAsync<ConciergeEntity?>(new CommandDefinition(sql, new { conciergeId }, cancellationToken: ct));
         }
 
-        public async Task<List<ConciergeEntity>> ReadAsync(Detrans detran, CancellationToken ct)
+        public async Task<ReadConciergesResponseDTO> ReadAsync(ReadConciergesRequestDTO readConciergesRequestDTO, CancellationToken ct)
         {
-            var sql = @$"select * from concierge where Detran = @detran order by Date desc";
+            var response = new ReadConciergesResponseDTO();
 
-            var result = await unitOfWork.Connection.QueryAsync<ConciergeEntity>(new CommandDefinition(sql, new { detran }, cancellationToken: ct));
+            var sqlFilters = @$" 1 = 1";
 
-            return result.ToList();
+            if (!string.IsNullOrEmpty(readConciergesRequestDTO.Title))
+                sqlFilters += @$" AND Title Like '{readConciergesRequestDTO.Title}%'";
+
+            if (!string.IsNullOrEmpty(readConciergesRequestDTO.FileName))
+                sqlFilters += @$" AND Document Like '%{readConciergesRequestDTO.FileName}%'";
+
+            if (readConciergesRequestDTO.UF.HasValue)
+                sqlFilters += @$" AND Detran ={readConciergesRequestDTO.UF.Value}";
+
+            if (readConciergesRequestDTO.Status.HasValue)
+                sqlFilters += @$" AND Status ={readConciergesRequestDTO.Status.Value}";
+
+            var sqlCounter = @$"select count(1) from concierge where {sqlFilters}";
+
+            var sqlWithFilters = @$"select * from concierge where {sqlFilters} 
+                                         order by Date desc
+                                         OFFSET @OffSet ROWS
+                                         FETCH NEXT @Limit ROWS ONLY";
+
+            var totalItems = await unitOfWork.Connection.QueryFirstOrDefaultAsync<int>(new CommandDefinition(sqlCounter, new { }, cancellationToken: ct));
+
+            var items = await unitOfWork.Connection.QueryAsync<ConciergeEntity>(new CommandDefinition(sqlWithFilters, new { readConciergesRequestDTO.OffSet, readConciergesRequestDTO.Limit }, cancellationToken: ct));
+
+            response.TotalItems = totalItems;
+            response.Items = items.ToList();
+
+            return response;
         }
 
         public async Task UpdateAsync(ConciergeEntity conciergeEntity, CancellationToken ct)

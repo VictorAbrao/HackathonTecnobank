@@ -1,4 +1,5 @@
 ﻿using Hackathon.SharedKernel.Entities;
+using static Hackathon.SharedKernel.Enums.HackathonEnums;
 
 namespace Hackathon.Domain.Entities
 {
@@ -6,7 +7,7 @@ namespace Hackathon.Domain.Entities
     {
         public string Word { get; set; }
         public int? WordParentId { get; set; }
-        public int Detran { get; set; }
+        public Detrans Detran { get; set; }
         public string SubWords { get; set; }
 
         public void DefineSubWords(string subwords) => SubWords = subwords;

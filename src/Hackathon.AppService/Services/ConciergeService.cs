@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using Hackathon.Domain.DTOs;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Repositories;
 using Hackathon.Domain.Services;
@@ -29,7 +30,7 @@ namespace Hackathon.AppService.Services
 
         public async Task<ErrorOr<ConciergeEntity?>> ReadByIdAsync(int conciergeId, CancellationToken ct)
         {
-            var result = await conciergeRepository.ReadAsync(conciergeId, ct);
+            var result = await conciergeRepository.ReadByIdAsync(conciergeId, ct);
 
             if (result is null)
                 return Error.NotFound("", "Concierge not found");
@@ -37,9 +38,9 @@ namespace Hackathon.AppService.Services
             return result;
         }
 
-        public async Task<ErrorOr<List<ConciergeEntity>>> ReadAsync(Detrans detran, CancellationToken ct)
+        public async Task<ErrorOr<ReadConciergesResponseDTO>> ReadAsync(ReadConciergesRequestDTO readConciergesRequestDTO, CancellationToken ct)
         {
-            var result = await conciergeRepository.ReadAsync(detran, ct);
+            var result = await conciergeRepository.ReadAsync(readConciergesRequestDTO, ct);
 
             return result;
         }

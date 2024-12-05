@@ -5,10 +5,13 @@ using static Hackathon.SharedKernel.Enums.HackathonEnums;
 
 namespace Hackathon.AppService.Queries.Requests.Concierge
 {
-    public class ReadConciergesQueryRequest : IRequest<ErrorOr<IList<ReadConciergesQueryResponse>>>
+    public class ReadConciergesQueryRequest : IRequest<ErrorOr<ReadConciergesQueryResponse>>
     {
-        public Detrans Detran { get; set; }
-
-        public void DefineDetran(Detrans detran) => Detran = detran;
+        public int? UF { get; set; }
+        public int? Status { get; set; }
+        public string? Title { get; set; }
+        public string? FileName { get; set; }
+        public int PageIndex { get; set; } = 0;
+        public int PageSize { get; set; } = 25;
     }
 }

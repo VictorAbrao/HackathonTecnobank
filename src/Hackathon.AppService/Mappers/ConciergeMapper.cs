@@ -1,5 +1,7 @@
 ﻿using ErrorOr;
+using Hackathon.AppService.Queries.Requests.Concierge;
 using Hackathon.AppService.Queries.Responses.Concierge;
+using Hackathon.Domain.DTOs;
 using Hackathon.Domain.Entities;
 using Hackathon.SharedKernel.Adapters.Responses;
 using Hackathon.SharedKernel.Enums;
@@ -24,20 +26,26 @@ namespace Hackathon.AppService.Mappers
             return response;
         }
 
-        internal static List<ReadConciergesQueryResponse> ToResponse(List<ConciergeEntity> conciergeEntities)
+        internal static ReadConciergesQueryResponse ToResponse(ReadConciergesRequestDTO requestDTO, ReadConciergesResponseDTO  responseDTO )
         {
-            var response = new List<ReadConciergesQueryResponse>();
+            var response = new ReadConciergesQueryResponse();
 
+            response.TotalItems = responseDTO.TotalItems;
+            response.TotalPages = (int)Math.Ceiling((double)responseDTO.TotalItems / requestDTO.Limit);
 
-            foreach (var conciergeEntity in conciergeEntities)
+            foreach (var conciergeEntity in responseDTO.Items)
             {
-                response.Add(new ReadConciergesQueryResponse()
+                response.Items.Add(new ReadConciergesQueryItemResponse()
                 {
                     Body = conciergeEntity.Body,
                     Document = conciergeEntity.Document,
                     Id = conciergeEntity.Id,
                     Status = ToStatusResponse(conciergeEntity.Status),
-                    Title = conciergeEntity.Title
+                    Vigency = "-",
+                    Title = conciergeEntity.Title,
+                    View = "Estadual",
+                    Type = "-",
+                    UF = ToDetranName(conciergeEntity.Detran)
                 });
             }
 
@@ -51,13 +59,13 @@ namespace Hackathon.AppService.Mappers
             switch(status) 
             {
                 case ConciergeStatus.New:
-                    conciergeStatus = "Novo";
+                    conciergeStatus = "Em análise";
                     break;
                 case ConciergeStatus.Approved:
                     conciergeStatus = "Aprovado";
                     break;
                 case ConciergeStatus.Denied:
-                    conciergeStatus = "Recusado";
+                    conciergeStatus = "Reprovado";
                     break;
                 default:
                     conciergeStatus = "Indefinido";
@@ -65,6 +73,40 @@ namespace Hackathon.AppService.Mappers
             }
 
             return conciergeStatus;
+        }
+
+        internal static string ToDetranName(Detrans detran)
+        {
+            string detranName = string.Empty;
+
+            switch (detran)
+            {
+                case Detrans.SP:
+                    detranName = "SP";
+                    break;
+                case Detrans.MS:
+                    detranName = "MS";
+                    break;
+                default:
+                    detranName = "-";
+                    break;
+            }
+
+            return detranName;
+        }
+
+        internal static ReadConciergesRequestDTO ToDto(ReadConciergesQueryRequest request) 
+        {
+            var offset = request.PageIndex <= 0 ? 0 : request.PageIndex * request.PageSize;
+
+            var dto = new ReadConciergesRequestDTO();
+            dto.UF = request.UF;
+            dto.Status = request.Status;
+            dto.Title = request.Title;
+            dto.FileName = request.FileName;
+            dto.OffSet = offset;
+            dto.Limit = request.PageSize;
+            return dto;
         }
     }
 }
